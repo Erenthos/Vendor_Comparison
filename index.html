@@ -77,7 +77,10 @@
                     clientId: CLIENT_ID,
                     scope: SCOPES,
                 }).then(() => {
+                    console.log("GAPI client initialized");
                     loadQuotations();
+                }).catch(error => {
+                    console.error("Error initializing GAPI client:", error);
                 });
             });
         }
@@ -113,6 +116,8 @@
                     tr.innerHTML = `<td>${vendor}</td><td>${totals[vendor].toFixed(2)}</td>`;
                     totalBody.appendChild(tr);
                 }
+            }).catch(error => {
+                console.error("Error loading quotations:", error);
             });
         }
 
@@ -120,6 +125,11 @@
             const vendorName = document.getElementById('vendorName').value;
             const itemName = document.getElementById('itemName').value;
             const price = document.getElementById('price').value;
+
+            if (!vendorName || !itemName || isNaN(price) || price <= 0) {
+                alert("Please fill out all fields with valid data.");
+                return;
+            }
 
             const values = [[vendorName, itemName, price]];
             const body = { values };
@@ -134,6 +144,8 @@
                 document.getElementById('vendorName').value = '';
                 document.getElementById('itemName').value = '';
                 document.getElementById('price').value = '';
+            }).catch(error => {
+                console.error("Error adding quotation:", error);
             });
         };
 
