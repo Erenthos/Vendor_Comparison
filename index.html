@@ -126,6 +126,7 @@
             const itemName = document.getElementById('itemName').value;
             const price = document.getElementById('price').value;
 
+            // Basic validation
             if (!vendorName || !itemName || isNaN(price) || price <= 0) {
                 alert("Please fill out all fields with valid data.");
                 return;
@@ -134,6 +135,13 @@
             const values = [[vendorName, itemName, price]];
             const body = { values };
 
+            // Ensure the GAPI client is initialized
+            if (!gapi.client || !gapi.client.sheets) {
+                console.error("GAPI client is not initialized");
+                return;
+            }
+
+            // Append the values to the sheet
             gapi.client.sheets.spreadsheets.values.append({
                 spreadsheetId: SHEET_ID,
                 range: 'Sheet1!A:C',  // Adjust range as needed
