@@ -72,12 +72,13 @@
 
         function initClient() {
             gapi.load('client:auth2', () => {
+                console.log("Loading GAPI client...");
                 gapi.client.init({
                     apiKey: API_KEY,
                     clientId: CLIENT_ID,
                     scope: SCOPES,
                 }).then(() => {
-                    console.log("GAPI client initialized");
+                    console.log("GAPI client initialized successfully");
                     loadQuotations();
                 }).catch(error => {
                     console.error("Error initializing GAPI client:", error);
@@ -86,6 +87,11 @@
         }
 
         function loadQuotations() {
+            if (!gapi.client || !gapi.client.sheets) {
+                console.error("GAPI client is not initialized");
+                return;
+            }
+
             gapi.client.sheets.spreadsheets.values.get({
                 spreadsheetId: SHEET_ID,
                 range: 'Sheet1!A2:C',  // Adjust range as needed
