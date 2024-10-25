@@ -85,7 +85,7 @@
         function loadQuotations() {
             gapi.client.sheets.spreadsheets.values.get({
                 spreadsheetId: SHEET_ID,
-                range: 'Sheet1!A:C',  // Adjust range as needed
+                range: 'Sheet1!A2:C',  // Adjust range as needed
             }).then(response => {
                 const rows = response.result.values || [];
                 const tbody = document.getElementById('comparisonBody');
